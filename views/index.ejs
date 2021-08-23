@@ -1,0 +1,56 @@
+<%- include('partials/header') -%>
+<div class="container-fluid no-gutters">
+    <div class="row">
+        <div class="col-9">
+            <canvas id="weightChart" height="180"></canvas>
+        </div>
+        <div class="col-3 pt-5">
+            <form action="/" method="POST">
+                <div class="form-group">
+                  <label for="weighinput" class="h3 text-pink">Today's Weight</label>
+                  <input type="text" name="weight" class="form-control" id="weighinput" aria-describedby="weight-input" placeholder="Enter your weight">
+                </div>
+                <button type="submit" class="btn btn-info btn-block">ADD</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    let weightEntrieslocal = [<%- weightEntries %>];
+</script>
+<script>
+    // database contents
+    let weightData  = [];
+    let weightlabel = [];
+    weightEntrieslocal.forEach(entry => {
+        weightData.push(entry.weight);
+        weightlabel.push(entry.datelabel);
+    }); 
+    var ctx = document.getElementById('weightChart');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: weightlabel,
+            datasets: [{
+                label: 'Weight Track',
+                data: weightData,
+                backgroundColor: [
+                    'rgba(23, 162, 184, 0.4)'
+                ],
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+</body>
+</html>
